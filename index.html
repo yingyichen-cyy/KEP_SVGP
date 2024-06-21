@@ -1,8 +1,8 @@
  <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Primal-Attention</title>
-  <meta name="description" content="Project page for Primal-Attention: Self-attention through Asymmetric Kernel SVD in Primal Representation.">
+  <title>KEP-SVGP</title>
+  <meta name="description" content="Project page for Self-Attention through Kernel-Eigen Pair Sparse Variational Gaussian Processes.">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
   <meta charset="utf-8">
 
@@ -34,66 +34,55 @@
 
 <div class="container" style="text-align:center; padding:2rem 15px">
   <div class="row" style="text-align:center">
-    <h1>Primal-Attention: Self-attention through Asymmetric Kernel SVD in Primal Representation</h1>
-    <h4 style="font-size:23.5px"><font color=#27d13a>NeurIPS 2023</font></h4>
+    <h1 style="font-size:31.7px">Self-Attention through Kernel-Eigen Pair Sparse Variational Gaussian Processes</h1>
+    <h4 style="font-size:23.5px"><font color=#f26522>ICML 2024</font></h4>
   </div>
   <div class="row" style="text-align:center">
     <div class="col-xs-0 col-md-2"></div>
     <div class="col-xs-12 col-md-8">
       <h4>
-        <a href="https://yingyichen-cyy.github.io/"><nobr>Yingyi Chen</nobr></a><sup>*</sup> &emsp;
-        <a href="https://qinghua-tao.github.io/"><nobr>Qinghua Tao</nobr></a><sup>*</sup> &emsp;
-        <a href="https://taralloc.github.io/"><nobr>Francesco Tonin</nobr></a> &emsp;
-        <a href="https://www.esat.kuleuven.be/sista/members/suykens.html"><nobr>Johan A.K. Suykens</nobr></a> 
+        <a href="https://yingyichen-cyy.github.io/"><nobr>Yingyi Chen</nobr></a><sup>* 1</sup> &emsp;
+        <a href="https://qinghua-tao.github.io/"><nobr>Qinghua Tao</nobr></a><sup>* 1</sup> &emsp;
+        <a href="https://taralloc.github.io/"><nobr>Francesco Tonin</nobr></a><sup>2</sup> &emsp;
+        <a href="https://www.esat.kuleuven.be/sista/members/suykens.html"><nobr>Johan A.K. Suykens</nobr></a><sup>1</sup> 
       </h4>
-      <h4 style="font-size:18px"><a href="https://www.esat.kuleuven.be/stadius/"><nobr>ESAT-STADIUS, KU Leuven, Belgium</nobr></a></h4>
+      <h4 style="font-size:17px"><sup>1</sup>ESAT-STADIUS, KU Leuven, Belgium &nbsp&nbsp&nbsp&nbsp&nbsp</a><sup>2</sup>LIONS, EPFL, Switzerland</a></h4> 
       <h4 style="font-size:17px"><sup>*</sup>Equal contribution&emsp;</h4>
     </div>
   </div>
 </div>
 
 <div class="container" style="text-align:center; padding:1rem">
-  <img src="resrc/pipeline.jpg" alt="pipeline.jpg" class="text-center" style="width: 95%; max-width: 1100px">
+  <img src="resrc/workflow.jpg" alt="workflow.jpg" class="text-center" style="width: 95%; max-width: 600px">
   <br/>
   <br/>
-  <p><b>An illustration of Primal-Attention and canonical self-attention.</b> 
-  Left: in <i>canonical self-attention</i>, the asymmetric attention matrix
-  <img src="http://latex.codecogs.com/svg.latex?K" alt="K" border="0"/>
-  can be induced by two feature maps
-  <img src="http://latex.codecogs.com/svg.latex?\phi_q" alt="\phi_q" border="0"/>,
-  <img src="http://latex.codecogs.com/svg.latex?\phi_k" alt="\phi_k" border="0"/>
-  through kernel trick from RKBS. 
-  The values <img src="http://latex.codecogs.com/svg.latex?v(X)" alt="v(X)" border="0"/>
-  serve as the dual variables projecting the kernel matrix
-  <img src="http://latex.codecogs.com/svg.latex?K" alt="K" border="0"/>
-  to the attention output. 
-  The time and space complexity are 
-  <img src="http://latex.codecogs.com/svg.latex?\mathcal{O}(N^2d_v)" alt="\mathcal{O}(N^2d_v)" border="0"/>
-  and 
-  <img src="http://latex.codecogs.com/svg.latex?\mathcal{O}(N^2+N d_v)" alt="\mathcal{O}(N^2+N d_v)" border="0"/>.
-  Right: in our <i>Primal-Attention</i>, we use the two feature maps
-  <img src="http://latex.codecogs.com/svg.latex?\phi_q" alt="\phi_q" border="0"/>,
-  <img src="http://latex.codecogs.com/svg.latex?\phi_k" alt="\phi_k" border="0"/>
-  in the primal to present the attention outputs, which are projected through the primal variables
-  <img src="http://latex.codecogs.com/svg.latex?W_{e|X}" alt="W_{e|X}" border="0"/>,
-  <img src="http://latex.codecogs.com/svg.latex?W_{r|X}" alt="W_{r|X}" border="0"/>.
-  The time and space complexity are
-  <img src="http://latex.codecogs.com/svg.latex?\mathcal{O}(Nps)" alt="\mathcal{O}(Nps)" border="0"/>
-  and 
-  <img src="http://latex.codecogs.com/svg.latex?\mathcal{O}(2Np+2ps)" alt="\mathcal{O}(2Np+2ps)" border="0"/>.
-  To align with the output size in the canonical self-attention, we add a linear map mapping from
-  <img src="http://latex.codecogs.com/svg.latex?2s" alt="2s" border="0"/>
-  to
-  <img src="http://latex.codecogs.com/svg.latex?d_v" alt="d_v" border="0"/>
-  with negligible memory increase after Primal-Attention’s output.
+  <p><b>Illustration of canonical self-attention and our KEP-SVGP in one layer.</b> 
+  (a) The attention kernel 
+  <img src="http://latex.codecogs.com/svg.latex?K_{\rm att}" alt="K_{\rm att}" border="0"/>
+  in canonical self-attention is induced by two different feature maps 
+  <img src="http://latex.codecogs.com/svg.latex?{\phi_q,\phi_k}" alt="\phi_q,\phi_k" border="0"/>
+  related to queries and keys; hence 
+  <img src="http://latex.codecogs.com/svg.latex?K_{\rm att}" alt="K_{\rm att}" border="0"/>
+  is in essence asymmetric.
+  (b) KEP-SVGP consists of one SVGP pair induced by the two sets of projection outputs based on 
+  <img src="http://latex.codecogs.com/svg.latex?{\phi_q,\phi_k}" alt="\phi_q,\phi_k" border="0"/>
+  from KSVD w.r.t. 
+  <img src="http://latex.codecogs.com/svg.latex?K_{\rm att}" alt="K_{\rm att}" border="0"/>, 
+  which fully characterizes the asymmetry of self-attention in the posterior. 
+  The posteriors are now approximated based on the inversion of a diagonal matrix 
+  <img src="http://latex.codecogs.com/svg.latex?\Lambda" alt="\Lambda" border="0"/>
+  containing top 
+  <img src="http://latex.codecogs.com/svg.latex?s" alt="s" border="0"/> 
+  singular values, thereby of time complexity 
+  <img src="http://latex.codecogs.com/svg.latex?\mathcal{O}(s)" alt="\mathcal{O}(s)" border="0"/>.
   </p>
   <h3 style="text-align:center; padding-top:1rem">
     <!-- <a class="label label-info" href="">arXiv</a> -->
-    <a class="label label-info" href="https://arxiv.org/abs/2305.19798">arXiv</a>
-    <a class="label label-info" href="https://openreview.net/forum?id=bRyduWAAVT">Paper</a>
-    <a class="label label-info" href="https://github.com/yingyichen-cyy/PrimalAttention/tree/master">Code</a>
-    <a class="label label-info" href="https://nips.cc/virtual/2023/poster/71144">Video</a>
-    <a class="label label-info" href=resrc/poster.pdf>Poster</a>
+    <a class="label label-info" href="https://arxiv.org/abs/2402.01476">arXiv</a>
+    <a class="label label-info" href="https://openreview.net/forum?id=4RqG4K5UwL">Paper</a>
+    <a class="label label-info" href="https://github.com/yingyichen-cyy/KEP-SVGP">Code</a>
+    <a class="label label-info" href="">Video</a>
+    <a class="label label-info" href="">Poster</a>
   </h3>
 </div>
 
@@ -101,101 +90,325 @@
   <h3>Abstract</h3>
   <hr/>
   <p>
-    Recently, a new line of works has emerged to understand and improve self-attention in Transformers by treating it as a kernel machine. 
-    However, existing works apply the methods for symmetric kernels to the asymmetric self-attention, resulting in a nontrivial gap between the analytical understanding and numerical implementation. 
-    In this paper, we provide a new perspective to represent and optimize self-attention through asymmetric Kernel Singular Value Decomposition (KSVD), which is also motivated by the low-rank property of self-attention normally observed in deep layers. 
-    Through asymmetric KSVD, <img src="http://latex.codecogs.com/svg.latex?i)" alt="i)" border="0"/> a primal-dual representation of self-attention is formulated, where the optimization objective is cast to maximize the projection variances in the attention outputs; 
-    <img src="http://latex.codecogs.com/svg.latex?ii)" alt="ii)" border="0"/> a novel attention mechanism, i.e., Primal-Attention, is proposed via the primal representation of KSVD, avoiding explicit computation of the kernel matrix in the dual; 
-    <img src="http://latex.codecogs.com/svg.latex?iii)" alt="iii)" border="0"/> with KKT conditions, we prove that the stationary solution to the KSVD optimization in Primal-Attention yields a zero-value objective. 
-    In this manner, KSVD optimization can be implemented by simply minimizing a regularization loss, so that low-rank property is promoted without extra decomposition. 
-    Numerical experiments show state-of-the-art performance of our Primal-Attention with improved efficiency. 
-    Moreover, we demonstrate that the deployed KSVD optimization regularizes Primal-Attention with a sharper singular value decay than that of the canonical self-attention, further verifying the great potential of our method. 
-    To the best of our knowledge, this is the first work that provides a <i>primal-dual representation</i> for the <i>asymmetric kernel</i> in self-attention and successfully applies it to <i>modeling</i> and <i>optimization</i>.
+    While the great capability of Transformers significantly boosts prediction accuracy, it could also yield overconfident predictions and require calibrated uncertainty estimation, which can be commonly tackled by Gaussian processes (GPs).
+    Existing works apply GPs with symmetric kernels under variational inference to the attention kernel; however, omitting the fact that attention kernels are in essence asymmetric.
+    Moreover, the complexity of deriving the GP posteriors remains high for large-scale data.
+    In this work, we propose Kernel-Eigen Pair Sparse Variational Gaussian Processes (KEP-SVGP) for building uncertainty-aware self-attention where the asymmetry of attention kernels is tackled by Kernel SVD (KSVD) and a reduced complexity is acquired.
+    Through KEP-SVGP, 
+    <i>i)</i> the SVGP pair induced by the two sets of singular vectors from KSVD w.r.t. the attention kernel fully characterizes the asymmetry;
+    <i>ii)</i> using only a small set of adjoint eigenfunctions from KSVD, the derivation of SVGP posteriors can be based on the inversion of a diagonal matrix containing singular values, contributing to a reduction in time complexity;
+    <i>iii)</i> an evidence lower bound is derived so that variational parameters and network weights can be optimized with it.
+    Experiments verify our excellent performances and efficiency on in-distribution, distribution-shift and out-of-distribution benchmarks.
   </p>
 
-  <h3>Method</h3>
+  <h3>Background</h3>
   <hr/>
-  <p><h4 style="text-align: center"><u>Canonical self-attention is with asymmetric kernel</u></h4></p>
-  Let <img src="http://latex.codecogs.com/svg.latex?\{\mathbf{x}_i\in\mathbb{R}^d\}_{i=1}^N" alt="\{\mathbf{x}_i\in\mathbb{R}^d\}_{i=1}^N" border="0"/> be the input data sequence.
+  <p><h4 style="text-align: center"><u>Gaussian Processes</u></h4></p>
+  A Gaussian Process (GP) represents a distribution, denoted by <img src="http://latex.codecogs.com/svg.latex?\mathcal{GP}" alt="" border="0"/>, over real-valued functions <img src="http://latex.codecogs.com/svg.latex?f(\cdot):\mathcal{X}\to\mathbb{R}" alt="" border="0"/> defined on an input domain <img src="http://latex.codecogs.com/svg.latex?\mathcal{X}\subset\mathbb{R}^d" alt="" border="0"/>. We have the prior process as follows:
+  <p></p>
+  <center>
+    <img src="http://latex.codecogs.com/svg.latex?
+    \begin{align*}
+    & \text{Prior:}\quad f(\cdot)\sim\mathcal{GP}
+    (0,\kappa(\cdot,\cdot))
+    \Rightarrow
+    \boldsymbol{f}\sim\mathcal{N}(\boldsymbol{0}, K_{XX}),\quad
+    K_{XX}:=[\kappa(\boldsymbol{x}_i,\boldsymbol{x}_j)]\in\mathbb{R}^{N\times N}
+    \\
+    & \text{Posterior:}\quad
+    \boldsymbol{f}^*|X^*,X,\boldsymbol{y}
+    \sim \mathcal{N}\left(K_{X^*X}{(K_{XX}+\sigma^2I_N)^{-1}}\boldsymbol{y}, 
+    K_{X^*X^*}-K_{X^*X}{\color{red}(K_{XX}+\sigma^2I_N)^{-1}}K_{XX^*}\right),
+    \end{align*}" border="0"/>
+  </center>
+  <p></p>
+  where <img src="http://latex.codecogs.com/svg.latex?\boldsymbol{f}:=[f(\boldsymbol{x}_1),\ldots, f(\boldsymbol{x}_N)]^\top\in\mathbb{R}^N" alt="" border="0"/> and the GP is with a symmetric positive-definite covariance function parameterized by a kernel function
+  <img src="http://latex.codecogs.com/svg.latex?\kappa(\cdot,\cdot):\mathcal{X}\times\mathcal{X}\to\mathbb{R}" alt="" border="0"/>.
+  The posterior process of <img src="http://latex.codecogs.com/svg.latex?\boldsymbol{f}^*" alt="" border="0"/> is
+  with time complexity <img src="http://latex.codecogs.com/svg.latex?{\color{red}\mathcal{O}(N^3)}" alt="" border="0"/>, due to the inversion of the kernel matrix.
+
+  <p><img src="http://latex.codecogs.com/svg.latex?\quad" alt="" border="0"/></p>
+
+  <p><h4 style="text-align: center"><u>Sparse Variational Gaussian Processes</u></h4></p>
+  Sparse variational Gaussian processes (SVGP) use <img src="http://latex.codecogs.com/svg.latex?M" alt="" border="0"/> inducing points <img src="http://latex.codecogs.com/svg.latex?\{Z_1,\ldots,Z_M\}\in\mathcal{X}" alt="" border="0"/> to represent the whole dataset, <img src="http://latex.codecogs.com/svg.latex?u[m]=f(Z_m)" alt="" border="0"/>
+  <p></p>
+  <center>
+    <img src="http://latex.codecogs.com/svg.latex?
+    \begin{align*}
+    & \text{Prior:}\quad 
+    \begin{pmatrix}
+      f(\cdot) \\ \boldsymbol{u}
+    \end{pmatrix}
+    \sim
+    \mathcal{GP}
+    \left( \boldsymbol{0},
+    \begin{bmatrix}
+        \kappa(\cdot,\cdot') & \boldsymbol{\kappa}_{\cdot\boldsymbol{u}}
+        \\
+        \boldsymbol{\kappa}_{\boldsymbol{u}\cdot'} & K_{\boldsymbol{uu}}
+    \end{bmatrix}
+    \right)
+    \\
+    & \text{Posterior:}\quad
+    f(\cdot)
+    \sim \mathcal{GP}\left(\boldsymbol{\kappa}_{\cdot \boldsymbol{u}}
+    K_{\boldsymbol{uu}^{-1}}\boldsymbol{m_u},
+    \,\,
+    \kappa(\cdot,\cdot') - \boldsymbol{\kappa}_{\cdot\boldsymbol{u}}
+    {\color{red}K_{\boldsymbol{uu}}^{-1}}
+    (K_{\boldsymbol{uu}}-S_{\boldsymbol{uu}})
+    K_{\boldsymbol{uu}}^{-1}\boldsymbol{\kappa}_{\boldsymbol{u}\cdot'}
+    \right),
+    \end{align*}
+    " border="0"/>
+  </center>
+  <p></p>
+  where the variational posterior is based on <img src="http://latex.codecogs.com/svg.latex?\mathrm{q}(f(\cdot))=\int \mathrm{p}(f(\cdot)|\boldsymbol{u})\mathrm{q}(\boldsymbol{u})\,\mathrm{d}\boldsymbol{u}" alt="" border="0"/> with <img src="http://latex.codecogs.com/svg.latex?\mathrm{q}(\boldsymbol{u})=\mathcal{N}(\boldsymbol{m_u},S_{\boldsymbol{uu}})" alt="" border="0"/> being the variational distribuition of the inducing points. The posteior is now with time complexity <img src="http://latex.codecogs.com/svg.latex?{\color{red}\mathcal{O}(M^3),\, M<N}" alt="" border="0"/>.
+
+  <p><h4 style="text-align: center"><u>SVGPs with Kernel-Eigen Features</u></h4></p>
+  We can further reduce the time compleixty of the posterior process by choosing kernel-eigen features as the inducing variables. 
+  Define <img src="http://latex.codecogs.com/svg.latex?\boldsymbol{u}_i:=\nu_i(\cdot)" alt="" border="0"/> as the <img src="http://latex.codecogs.com/svg.latex?i" alt="" border="0"/>-th eigenfunction of the kernel <img src="http://latex.codecogs.com/svg.latex?\kappa(\cdot,\cdot)" alt="" border="0"/> with eigenvalue <img src="http://latex.codecogs.com/svg.latex?\lambda_i" alt="" border="0"/>, then we have
+  <p></p>
+  <center>
+    <img src="http://latex.codecogs.com/svg.latex?
+    \begin{align*}
+    & \text{Prior:}\quad 
+    \begin{pmatrix}
+      \boldsymbol{f} \\ \boldsymbol{u}
+    \end{pmatrix}
+    \sim 
+    \mathcal{GP}
+    \left(
+    \begin{bmatrix}
+        K_{XX} & H\Lambda
+        \\
+        \Lambda H^\top & \Lambda
+    \end{bmatrix}
+    \right)
+    \\
+    & \text{Posterior:}\quad  
+    \boldsymbol{f}
+    \sim
+    \mathcal{N}
+    \left(
+    (H\Lambda)\Lambda^{-1}\boldsymbol{m_u}
+    \,\,
+    K_{XX} - (H\Lambda){\color{red}\Lambda^{-1}}(\Lambda-S_{\boldsymbol{uu}})\Lambda^{-1}(\Lambda H^\top)
+    \right)
+    ,
+    \end{align*}
+    " border="0"/>
+  </center>
+  <p></p>
+  where <img src="http://latex.codecogs.com/svg.latex?\Lambda:=\text{diag}\{\lambda_1,\ldots,\lambda_M\}" alt="" border="0"/> is the eigenvalue matrix, and <img src="http://latex.codecogs.com/svg.latex?H=[\nu_1,\ldots,\nu_M]\in\mathbb{R}^{N\times M}" alt="" border="0"/> are the eigenvectors.
+  The posteior is now with time complexity <img src="http://latex.codecogs.com/svg.latex?{\color{red}\mathcal{O}(M),\, M<N}" alt="" border="0"/>.
+
+  <p><img src="http://latex.codecogs.com/svg.latex?\quad" alt="" border="0"/></p>
+  <p><h4 style="text-align: center"><u>Canonical Self-Attention is with Asymmetric Kernel</u></h4></p>
+  Let <img src="http://latex.codecogs.com/svg.latex?\{\boldsymbol{x}_i\in\mathbb{R}^d\}_{i=1}^N" alt="\{\boldsymbol{x}_i\in\mathbb{R}^d\}_{i=1}^N" border="0"/> be the input data sequence.
   In self-attention, the queries, keys and values output the linear projections of the input sequence:
+  <p></p>
   <center>
-    <img src="http://latex.codecogs.com/svg.latex?q(\mathbf{x}_i) = W_q \mathbf{x}_i,\quad k(\mathbf{x}_i) = W_k \mathbf{x}_i,\quad
-    v(\mathbf{x}_i) = W_v \mathbf{x}_i." alt="q(\mathbf{x}_i) = W_q \mathbf{x}_i,
+    <img src="http://latex.codecogs.com/svg.latex?q(\boldsymbol{x}_i) = W_q \boldsymbol{x}_i,\quad k(\boldsymbol{x}_i) = W_k \boldsymbol{x}_i,\quad
+    v(\boldsymbol{x}_i) = W_v \boldsymbol{x}_i." alt="q(\boldsymbol{x}_i) = W_q \boldsymbol{x}_i,
     \quad
-    k(\mathbf{x}_i) = W_k \mathbf{x}_i,
+    k(\boldsymbol{x}_i) = W_k \boldsymbol{x}_i,
     \quad
-    v(\mathbf{x}_i) = W_v \mathbf{x}_i." border="0"/>
+    v(\boldsymbol{x}_i) = W_v \boldsymbol{x}_i." border="0"/>
   </center>
+  <p></p>
   The canonical self-attention is with "softmax" activation applied for bringing non-linearity and positives, yielding the attention weights:
+  <p></p>
   <center>
-    <img src="http://latex.codecogs.com/svg.latex?\kappa (\mathbf{x}_i, \mathbf{x}_j) = \text{softmax} \left( \left< W_q \mathbf{x}_i, W_k \mathbf{x}_j\right> / \sqrt{d_k} \right), \quad i,j=1,\ldots,N," alt="\kappa (\mathbf{x}_i, \mathbf{x}_j)= \text{softmax} \left( \left< W_q \mathbf{x}_i, W_k \mathbf{x}_j\right> / \sqrt{d_k} \right), \quad i,j=1,\ldots,N," border="0"/>
+    <img src="http://latex.codecogs.com/svg.latex?\kappa_\text{att} (\boldsymbol{x}_i, \boldsymbol{x}_j) = \text{softmax} \left( \left< W_q \boldsymbol{x}_i, W_k \boldsymbol{x}_j\right> / \sqrt{d_k} \right), \quad i,j=1,\ldots,N," alt="\kappa_\text{att} (\boldsymbol{x}_i, \boldsymbol{x}_j)= \text{softmax} \left( \left< W_q \boldsymbol{x}_i, W_k \boldsymbol{x}_j\right> / \sqrt{d_k} \right), \quad i,j=1,\ldots,N," border="0"/>
   </center>
-  where <img src="http://latex.codecogs.com/svg.latex?\kappa(\cdot,\cdot):\mathbb{R}^d\times\mathbb{R}^d\mapsto \mathbb{R}" alt="\kappa(\cdot,\cdot):\mathbb{R}^d\times\mathbb{R}^d\mapsto \mathbb{R}" border="0"/>
+  <p></p>
+  where <img src="http://latex.codecogs.com/svg.latex?\kappa_\text{att}(\cdot,\cdot):\mathbb{R}^d\times\mathbb{R}^d\mapsto \mathbb{R}" alt="\kappa_\text{att}(\cdot,\cdot):\mathbb{R}^d\times\mathbb{R}^d\mapsto \mathbb{R}" border="0"/>
   serves as the kernel function. 
   Notice that in general, 
-  <img src="http://latex.codecogs.com/svg.latex?\left< W_q \mathbf{x}_i, W_k \mathbf{x}_j\right> \neq \left< W_q \mathbf{x}_j, W_k \mathbf{x}_i\right>" alt="\left< W_q \mathbf{x}_i, W_k \mathbf{x}_j\right> \neq \left< W_q \mathbf{x}_j, W_k \mathbf{x}_i\right>" border="0"/>,
+  <img src="http://latex.codecogs.com/svg.latex?\left< W_q \mathbf{x}_i, W_k \boldsymbol{x}_j\right> \neq \left< W_q \boldsymbol{x}_j, W_k \mathbf{x}_i\right>" alt="\left< W_q \boldsymbol{x}_i, W_k \boldsymbol{x}_j\right> \neq \left< W_q \boldsymbol{x}_j, W_k \boldsymbol{x}_i\right>" border="0"/>,
   leading to <b>an asymmeyric kernel</b>
   where 
-  <img src="http://latex.codecogs.com/svg.latex?\kappa(\mathbf{x}_i, \mathbf{x}_j)\neq \kappa(\mathbf{x}_j, \mathbf{x}_i)" alt="" border="0"/>.
+  <img src="http://latex.codecogs.com/svg.latex?\kappa_\text{att}(\boldsymbol{x}_i, \boldsymbol{x}_j)\neq \kappa_\text{att}(\boldsymbol{x}_j, \boldsymbol{x}_i)" alt="" border="0"/>.
+  Please refer to <a href="https://openreview.net/forum?id=bRyduWAAVT">Primal-Attention (NeurIPS 2023)</a> for more details.
   
   </br></br>
-  <p><h4 style="text-align: center"><u>Primal-dual representation of self-attention based on KSVD</u></h4></p>
-  Canonical self-attention can be represented by the dual representation of the kernel SVD (KSVD) problem, while our method is based on the primal representation. Please refer to Section 3 in the paper for more details.
+  <p><h4 style="text-align: center"><u>Self-Attention with Kernel SVD</u></h4></p>
+  Canonical self-attention can be represented by the dual representation of the kernel SVD (KSVD) problem. Please refer to <a href="https://openreview.net/forum?id=bRyduWAAVT">Primal-Attention (NeurIPS 2023)</a> for more details.
 
   </br></br>
   <p><b>Remark 3.3 (Primal-dual representations of KSVD in self-attention).</b> 
   <i>In the KSVD formulations for the asymmetric kernel matrix in self-attention, with KKT conditions, the projection scores can be either represented in the primal using explicit feature maps or in the dual using  kernel functions:
   </i>
+  <p></p>
   <center>
     <img src="http://latex.codecogs.com/svg.latex?
-         \textit{Primal:}\, 
+         \text{Primal:}\, 
          \begin{cases}
-            e(\mathbf{x}) = W_{e|X}^\top \phi_q(\mathbf{x})
+            e(\boldsymbol{x}) = W_{e|X}^\top \phi_q(\boldsymbol{x})
             \\
-            r(\mathbf{x}) = W_{r|X}^\top \phi_k(\mathbf{x})
+            r(\boldsymbol{x}) = W_{r|X}^\top \phi_k(\boldsymbol{x})
          \end{cases},
          \quad
-         \textit{Dual:}\, 
+         \text{Dual:}\, 
          \begin{cases}
-            e(\mathbf{x}) = \sum\nolimits_{j=1}^N \mathbf{h}_{r_j} \kappa(\mathbf{x},\mathbf{x}_j) 
+            e(\boldsymbol{x}) = \sum\nolimits_{j=1}^N \boldsymbol{h}_{r_j} \kappa_\text{att}(\boldsymbol{x},\boldsymbol{x}_j) 
             \\
-            r(\mathbf{x}) = \sum\nolimits_{i=1}^N \mathbf{h}_{e_i} \kappa(\mathbf{x}_i,\mathbf{x}) 
+            r(\boldsymbol{x}) = \sum\nolimits_{i=1}^N \boldsymbol{h}_{e_i} \kappa_\text{att}(\boldsymbol{x}_i,\boldsymbol{x}) 
          \end{cases}.
          " alt="" border="0"/>
   </center>
+  <p></p>
+  where <img src="http://latex.codecogs.com/svg.latex?H_e:=[\boldsymbol{h}_{e_1},\ldots,\boldsymbol{h}_{e_N}]^\top" alt="" border="0"/>, <img src="http://latex.codecogs.com/svg.latex?H_r:=[\boldsymbol{h}_{r_1},\ldots,\boldsymbol{h}_{r_N}]^\top \in\mathbb{R}^{N\times s}" alt="" border="0"/> are dual variables with column-wisely the left and right singular vectors of the attention matrix <img src="http://latex.codecogs.com/svg.latex?K_{\text{att}}" alt="" border="0"/>.
 
-  </br>
-  <p><h4 style="text-align: center"><u>Primal-Attention</u></h4></p>
-  We derive a novel attention mechanism by leveraging the primal representation of KSVD, namely, <i>Primal-Attention</i>, where two explicit feature maps <img src="http://latex.codecogs.com/svg.latex?\phi_q, \phi_k" alt="" border="0"/> are adopted. 
-  To fully exploit the asymmetry in the kernel matrix of self-attention, Primal-Attention concatenates the two sets of projections using both left and right singular vectors, and thus formulates the attention outputs as follows:
+  <h3>Method</h3>
+  <hr/>
+
+  <p><h4 style="text-align: center"><u>Pair of Adjoint Eigenfunctions for Self-Attention</u></h4></p>
+  Self-Attention corresponds to a shifted eigenvalue problem w.r.t. the attention matrix [<a href="https://openreview.net/forum?id=bRyduWAAVT">Primal-Attention (NeurIPS 2023)</a>]:
+  <p></p>
   <center>
     <img src="http://latex.codecogs.com/svg.latex?
-        \mathbf{o}_i := [\mathbf{e}_i; \mathbf{r}_i]
-        = \left[ W_{e|X}^\top \phi_q(\mathbf{x}_i) ; W_{r|X}^\top \phi_k(\mathbf{x}_i)\right]
-        = \left[ W_{e}^\top f(X) g_q(q(\mathbf{x}_i)) ; W_{r}^\top f(X) g_k(k(\mathbf{x}_i))\right]." 
-        alt="" border="0"/>
+         \begin{align*}
+         K_{\text{att}} H_r=H_e \Lambda, 
+          \\
+          K_{\text{att}}^\top H_e=H_r\Lambda,
+         \end{align*}
+         " alt="" border="0"/>
   </center>
-  In Primal-Attention, the projection weights 
-  <img src="http://latex.codecogs.com/svg.latex?W_{e|X}, W_{r|X}" alt="" border="0"/> in the primal play the role as the counterparts of the values in the dual.
-  Our Primal-Attention flow is detailed in the bottom part of the teaser image.
+  <p></p>
+  leading to the two eigendecompositions w.r.t. symmetric kernel <img src="http://latex.codecogs.com/svg.latex?K_\text{att}K_\text{att}^\top" alt="" border="0"/>, <img src="http://latex.codecogs.com/svg.latex?K_\text{att}^\top K_\text{att}" alt="" border="0"/>:
+  <p></p>
+  <center>
+    <img src="http://latex.codecogs.com/svg.latex?
+         \begin{align*}
+         \left(K_{\text{att}}K_{\text{att}}^\top\right) H_e=H_e \Lambda^2, 
+          \\
+          \left(K_{\text{att}}^\top K_{\text{att}}\right) H_r=H_r\Lambda^2,
+         \end{align*}
+         " alt="" border="0"/>
+  </center>
+  <p></p>
+  corresponding to two SVGPs with adjoint kernel-eigen features
+  <p></p>
+  <center>
+    <img src="http://latex.codecogs.com/svg.latex?
+    \begin{align*}
+    & \text{Prior:}\quad
+    \begin{pmatrix}
+      \boldsymbol{f}^e \\ \boldsymbol{u}^e
+    \end{pmatrix}
+    \sim 
+    \mathcal{GP}
+    \left(
+    \begin{bmatrix}
+        K_{\text{att}} K_{\text{att}}^\top & H_e\Lambda^2
+        \\
+        \Lambda^2 H_e^\top & \Lambda^2
+    \end{bmatrix}
+    \right)
+    \quad
+    \Rightarrow
+    \quad
+    \text{Posterior:}\quad
+    \boldsymbol{f}^e
+    \sim
+    \mathcal{N}
+    \Big(
+    \underbrace{e(X)\Lambda^{-1}\boldsymbol{m_u}}_{\boldsymbol{m}^e}
+    \,\,
+    \underbrace{e(X)\Lambda^{-2}S_{\boldsymbol{uu}}e(X)^\top}_{\Sigma^e:=L^e {L^e}^\top}
+    \Big),
+    \\
+    & \text{Prior:}\quad
+    \begin{pmatrix}
+      \boldsymbol{f}^r \\ \boldsymbol{u}^r
+    \end{pmatrix}
+    \sim 
+    \mathcal{GP}
+    \left(
+    \begin{bmatrix}
+        K_{\text{att}}^\top K_{\text{att}}  & H_r\Lambda^2
+        \\
+        \Lambda^2 H_r^\top & \Lambda^2
+    \end{bmatrix}
+    \right)
+    \quad
+    \Rightarrow
+    \quad
+    \text{Posterior:}
+    \quad
+    \boldsymbol{f}^r
+    \sim
+    \mathcal{N}
+    \Big(
+    \underbrace{r(X)\Lambda^{-1}\boldsymbol{m_u}}_{\boldsymbol{m}^r}
+    \,\,
+    \underbrace{r(X)\Lambda^{-2}S_{\boldsymbol{uu}}r(X)^\top}_{\Sigma^r:=L^r {L^r}^\top}
+    \Big),
+    \end{align*}
+    " border="0"/>
+  </center>
+  <p></p>
+  <p><img src="http://latex.codecogs.com/svg.latex?\quad" alt="" border="0"/></p>
 
+  <p><h4 style="text-align: center"><u>Kernel-Eigen Pair Sparse Variational Gaussian Processes</u></h4></p>
+  The outputs of the two SVGPs are obtained by the Monte-Carlo sampling:
+  <p></p>
+  <center>
+    <img src="http://latex.codecogs.com/svg.latex?
+         \begin{align*}
+         F^e=\boldsymbol{m}^e + L^e \boldsymbol{\epsilon},\quad \boldsymbol{\epsilon}\sim\mathcal{N}(0,\boldsymbol{I}_N),
+          \\
+         F^r=\boldsymbol{m}^r + L^r \boldsymbol{\epsilon},\quad \boldsymbol{\epsilon}\sim\mathcal{N}(0,\boldsymbol{I}_N),
+         \end{align*}
+         " alt="" border="0"/>
+  </center>
+  <p></p>
+  where <img src="http://latex.codecogs.com/svg.latex?L^e,\,L^r" alt="" border="0"/> are the Cholesky factor of <img src="http://latex.codecogs.com/svg.latex?\Sigma^e,\,\Sigma^r" alt="" border="0"/> respectively.
+  Finally, we merge the outputs of the two SVGPs either by addition or concatenation schemes:
+  <p></p>
+  <center>
+    <img src="http://latex.codecogs.com/svg.latex?
+         \begin{align*}
+         & \text{Addition:}\quad
+          F^\text{add}:=F^e+F^r \in \mathbb{R}^N,
+          \\
+         & \text{Concatenation:}\quad
+         F^\text{cat}:=[F^e; F^r]\in\mathbb{R}^{2N}.
+         \end{align*}
+         " alt="" border="0"/>
+  </center>
+  <p></p>
+  The final outputs of the self-attention are
+  <p></p>
+  <center>
+    <img src="http://latex.codecogs.com/svg.latex?
+         \begin{align*}
+         & \text{Addition:}\quad
+          O:=F^\text{add} W^\text{add},
+          \\
+         & \text{Concatenation:}\quad
+         O:= W^\text{cat}_1 F^\text{cat} W^\text{cat}_2.
+         \end{align*}
+         " alt="" border="0"/>
+  </center>
+  <p></p>
 
   <h3>Results</h3>
   <hr/>
   <p><font color=#27d13a>Please refer to our paper for more experiments.</font></p>
-  <p><h4 style="text-align: center"><u>Spectrum analysis of the self-attention matrix on ImageNet-1K</u></h4></p>
+  <p><h4 style="text-align: center"><u>Uncertainty Awareness on In-distribution Data</u></h4></p>
   <div class="container" style="text-align:center; padding:1rem">
-    <img src="resrc/low-rank.jpg" alt="low-rank.jpg" class="text-center" style="width: 95%; max-width: 1100px">
+    <img src="resrc/in-distribution.png" alt="low-rank.jpg" class="text-center" style="width: 90%; max-width: 1100px">
     <br/>
-    <p> <b>(a)-(c)</b> Plot the cumulative explained variance regarding the singular values of the attention matrix with mean and standard deviation of the chosen layers in pre-trained DeiT-Small/16 and Primal.+DeiT-Small/16 (ours): the attention matrix attains sharper singular value decays in deeper layers, also shown in <b>(d)</b>. Note that we also plot the cumulative explained variance curves of the self-attention matrix from the last layer, i.e., the 11-th layer denoted by “L[11]”, of both models in <b>(c)</b>. Our method shows an enhanced low-rank property of the attention matrix upon the baseline.
-    </p>
   </div>
 
 
   <h3>Resources</h3>
   <hr/>
   <div class="row" style="text-align: center">
-    <div class="col-xs-1 col-lg-1"></div>
+    <div class="col-xs-3 col-lg-3"></div>
     <div class="col-xs-2 col-lg-2">
       <h4>arXiv</h4>
       <a href="https://arxiv.org/abs/2305.19798" style="color:inherit"> 
@@ -214,7 +427,7 @@
         <img src="resrc/github_repo.jpg" alt="github_repo.jpg" class="text-center"
              style="max-width:100%; border:0.15em solid;border-radius:0.5em;"></a>
     </div>
-    <div class="col-xs-2 col-lg-2">
+<!--     <div class="col-xs-2 col-lg-2">
       <h4>Poster</h4>
       <a href=resrc/poster.pdf style="color:inherit;">
         <img src="resrc/poster.png" alt="github_repo.jpg" class="text-center"
@@ -225,7 +438,7 @@
       <a href="https://nips.cc/virtual/2023/poster/71144" style="color:inherit;">
         <img src="resrc/video.png" alt="video.png" class="text-center"
              style="max-width:100%; border:0.15em solid;border-radius:0.5em;"></a>
-    </div>
+    </div> -->
   </div>
 
     <h4 style="padding-top:0.5em">BibTeX</h4>
@@ -233,11 +446,11 @@
     <div class="card">
       <div class="card-block">
         <pre class="card-text clickselect">
-          @article{chen2023primal,
-            title={Primal-Attention: Self-attention through Asymmetric Kernel SVD in Primal Representation},
-            author={Chen, Yingyi and Tao, Qinghua and Tonin, Francesco and Suykens, Johan AK},
-            journal={Advances in Neural Information Processing Systems},
-            year={2023}
+          @inproceedings{chen2024self,
+            title={Self-Attention through Kernel-Eigen Pair Sparse Variational Gaussian Processes},
+            author={Chen, Yingyi and Tao, Qinghua and Tonin, Francesco and Suykens, Johan A.K.},
+            booktitle={International Conference on Machine Learning},
+            year={2024}
           }</pre>
       </div>
     </div>
