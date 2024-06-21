@@ -127,8 +127,6 @@
   The posterior process of <img src="http://latex.codecogs.com/svg.latex?\boldsymbol{f}^*" alt="" border="0"/> is
   with time complexity <img src="http://latex.codecogs.com/svg.latex?{\color{red}\mathcal{O}(N^3)}" alt="" border="0"/>, due to the inversion of the kernel matrix.
 
-  <p><img src="http://latex.codecogs.com/svg.latex?\quad" alt="" border="0"/></p>
-
   <p><h4 style="text-align: center"><u>Sparse Variational Gaussian Processes</u></h4></p>
   Sparse variational Gaussian processes (SVGP) use <img src="http://latex.codecogs.com/svg.latex?M" alt="" border="0"/> inducing points <img src="http://latex.codecogs.com/svg.latex?\{Z_1,\ldots,Z_M\}\in\mathcal{X}" alt="" border="0"/> to represent the whole dataset, <img src="http://latex.codecogs.com/svg.latex?u[m]=f(Z_m)" alt="" border="0"/>
   <p></p>
@@ -202,8 +200,7 @@
   <p></p>
   where <img src="http://latex.codecogs.com/svg.latex?\Lambda:=\text{diag}\{\lambda_1,\ldots,\lambda_M\}" alt="" border="0"/> is the eigenvalue matrix, and <img src="http://latex.codecogs.com/svg.latex?H=[\nu_1,\ldots,\nu_M]\in\mathbb{R}^{N\times M}" alt="" border="0"/> are the eigenvectors.
   The posteior is now with time complexity <img src="http://latex.codecogs.com/svg.latex?{\color{red}\mathcal{O}(M),\, M<N}" alt="" border="0"/>.
-
-  <p><img src="http://latex.codecogs.com/svg.latex?\quad" alt="" border="0"/></p>
+ 
   <p><h4 style="text-align: center"><u>Canonical Self-Attention is with Asymmetric Kernel</u></h4></p>
   Let <img src="http://latex.codecogs.com/svg.latex?\{\boldsymbol{x}_i\in\mathbb{R}^d\}_{i=1}^N" alt="\{\boldsymbol{x}_i\in\mathbb{R}^d\}_{i=1}^N" border="0"/> be the input data sequence.
   In self-attention, the queries, keys and values output the linear projections of the input sequence:
@@ -350,7 +347,6 @@
     " border="0"/>
   </center>
   <p></p>
-  <p><img src="http://latex.codecogs.com/svg.latex?\quad" alt="" border="0"/></p>
 
   <p><h4 style="text-align: center"><u>Kernel-Eigen Pair Sparse Variational Gaussian Processes</u></h4></p>
   The outputs of the two SVGPs are obtained by the Monte-Carlo sampling:
