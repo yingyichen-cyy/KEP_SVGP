@@ -128,7 +128,7 @@
   with time complexity <img src="http://latex.codecogs.com/svg.latex?{\color{red}\mathcal{O}(N^3)}" alt="" border="0"/>, due to the inversion of the kernel matrix.
 
   <p><h4 style="text-align: center"><u>Sparse Variational Gaussian Processes</u></h4></p>
-  Sparse variational Gaussian processes (SVGP) use <img src="http://latex.codecogs.com/svg.latex?M" alt="" border="0"/> inducing points <img src="http://latex.codecogs.com/svg.latex?\{Z_1,\ldots,Z_M\}\in\mathcal{X}" alt="" border="0"/> to represent the whole dataset, <img src="http://latex.codecogs.com/svg.latex?u[m]=f(Z_m)" alt="" border="0"/>
+  Sparse variational Gaussian processes (SVGP) use <img src="http://latex.codecogs.com/svg.latex?s" alt="" border="0"/> inducing points <img src="http://latex.codecogs.com/svg.latex?\{Z_1,\ldots,Z_s\}\in\mathcal{X}" alt="" border="0"/> to represent the whole dataset, <img src="http://latex.codecogs.com/svg.latex?u[j]=f(Z_j)" alt="" border="0"/>
   <p></p>
   <center>
     <img src="http://latex.codecogs.com/svg.latex?
@@ -161,7 +161,7 @@
     " border="0"/>
   </center>
   <p></p>
-  where the variational posterior is based on <img src="http://latex.codecogs.com/svg.latex?\mathrm{q}(f(\cdot))=\int \mathrm{p}(f(\cdot)|\boldsymbol{u})\mathrm{q}(\boldsymbol{u})\,\mathrm{d}\boldsymbol{u}" alt="" border="0"/> with <img src="http://latex.codecogs.com/svg.latex?\mathrm{q}(\boldsymbol{u})=\mathcal{N}(\boldsymbol{m_u},S_{\boldsymbol{uu}})" alt="" border="0"/> being the variational distribuition of the inducing points. The posteior is now with time complexity <img src="http://latex.codecogs.com/svg.latex?{\color{red}\mathcal{O}(M^3),\, M<N}" alt="" border="0"/>.
+  where the variational posterior is based on <img src="http://latex.codecogs.com/svg.latex?\mathrm{q}(f(\cdot))=\int \mathrm{p}(f(\cdot)|\boldsymbol{u})\mathrm{q}(\boldsymbol{u})\,\mathrm{d}\boldsymbol{u}" alt="" border="0"/> with <img src="http://latex.codecogs.com/svg.latex?\mathrm{q}(\boldsymbol{u})=\mathcal{N}(\boldsymbol{m_u},S_{\boldsymbol{uu}})" alt="" border="0"/> being the variational distribuition of the inducing points. The posteior is now with time complexity <img src="http://latex.codecogs.com/svg.latex?{\color{red}\mathcal{O}(s^3),\, s<N}" alt="" border="0"/>.
 
   <p><h4 style="text-align: center"><u>SVGPs with Kernel-Eigen Features</u></h4></p>
   We can further reduce the time compleixty of the posterior process by choosing kernel-eigen features as the inducing variables. 
@@ -175,7 +175,7 @@
       \boldsymbol{f} \\ \boldsymbol{u}
     \end{pmatrix}
     \sim 
-    \mathcal{GP}
+    \mathcal{N}
     \left(
     \begin{bmatrix}
         K_{XX} & H\Lambda
@@ -198,8 +198,8 @@
     " border="0"/>
   </center>
   <p></p>
-  where <img src="http://latex.codecogs.com/svg.latex?\Lambda:=\text{diag}\{\lambda_1,\ldots,\lambda_M\}" alt="" border="0"/> is the eigenvalue matrix, and <img src="http://latex.codecogs.com/svg.latex?H=[\nu_1,\ldots,\nu_M]\in\mathbb{R}^{N\times M}" alt="" border="0"/> are the eigenvectors.
-  The posteior is now with time complexity <img src="http://latex.codecogs.com/svg.latex?{\color{red}\mathcal{O}(M),\, M<N}" alt="" border="0"/>.
+  where <img src="http://latex.codecogs.com/svg.latex?\Lambda:=\text{diag}\{\lambda_1,\ldots,\lambda_s\}" alt="" border="0"/> is the eigenvalue matrix, and <img src="http://latex.codecogs.com/svg.latex?H=[\boldsymbol{\nu}_1,\ldots,\boldsymbol{\nu}_s]\in\mathbb{R}^{N\times s}" alt="" border="0"/> are the eigenvectors.
+  The posteior is now with time complexity <img src="http://latex.codecogs.com/svg.latex?{\color{red}\mathcal{O}(s),\, s<N}" alt="" border="0"/>.
  
   <p><h4 style="text-align: center"><u>Canonical Self-Attention is with Asymmetric Kernel</u></h4></p>
   Let <img src="http://latex.codecogs.com/svg.latex?\{\boldsymbol{x}_i\in\mathbb{R}^d\}_{i=1}^N" alt="\{\boldsymbol{x}_i\in\mathbb{R}^d\}_{i=1}^N" border="0"/> be the input data sequence.
@@ -291,12 +291,12 @@
   <center>
     <img src="http://latex.codecogs.com/svg.latex?
     \begin{align*}
-    & \text{Prior:}\quad
+    & \text{Prior:}\,
     \begin{pmatrix}
-      \boldsymbol{f}^e \\ \boldsymbol{u}^e
+      \boldsymbol{f}^e_{[d]} \\ \boldsymbol{u}^e_{[d]}
     \end{pmatrix}
     \sim 
-    \mathcal{GP}
+    \mathcal{N}
     \left(
     \begin{bmatrix}
         K_{\text{att}} K_{\text{att}}^\top & H_e\Lambda^2
@@ -304,25 +304,23 @@
         \Lambda^2 H_e^\top & \Lambda^2
     \end{bmatrix}
     \right)
-    \quad
     \Rightarrow
-    \quad
-    \text{Posterior:}\quad
-    \boldsymbol{f}^e
+    \text{Posterior:}\,
+    \boldsymbol{f}^e_{[d]}
     \sim
     \mathcal{N}
     \Big(
-    \underbrace{e(X)\Lambda^{-1}\boldsymbol{m_u}}_{\boldsymbol{m}^e}
+    \underbrace{e(X)\Lambda^{-1}\boldsymbol{m_u}}_{\boldsymbol{\mu}^e}
     \,\,
     \underbrace{e(X)\Lambda^{-2}S_{\boldsymbol{uu}}e(X)^\top}_{\Sigma^e:=L^e {L^e}^\top}
     \Big),
     \\
-    & \text{Prior:}\quad
+    & \text{Prior:}\,
     \begin{pmatrix}
-      \boldsymbol{f}^r \\ \boldsymbol{u}^r
+      \boldsymbol{f}^r_{[d]} \\ \boldsymbol{u}_{[d]}^r
     \end{pmatrix}
     \sim 
-    \mathcal{GP}
+    \mathcal{N}
     \left(
     \begin{bmatrix}
         K_{\text{att}}^\top K_{\text{att}}  & H_r\Lambda^2
@@ -330,16 +328,14 @@
         \Lambda^2 H_r^\top & \Lambda^2
     \end{bmatrix}
     \right)
-    \quad
     \Rightarrow
-    \quad
     \text{Posterior:}
-    \quad
-    \boldsymbol{f}^r
+    \,
+    \boldsymbol{f}^r_{[d]}
     \sim
     \mathcal{N}
     \Big(
-    \underbrace{r(X)\Lambda^{-1}\boldsymbol{m_u}}_{\boldsymbol{m}^r}
+    \underbrace{r(X)\Lambda^{-1}\boldsymbol{m_u}}_{\boldsymbol{\mu}^r}
     \,\,
     \underbrace{r(X)\Lambda^{-2}S_{\boldsymbol{uu}}r(X)^\top}_{\Sigma^r:=L^r {L^r}^\top}
     \Big),
@@ -354,9 +350,9 @@
   <center>
     <img src="http://latex.codecogs.com/svg.latex?
          \begin{align*}
-         F^e=\boldsymbol{m}^e + L^e \boldsymbol{\epsilon},\quad \boldsymbol{\epsilon}\sim\mathcal{N}(0,\boldsymbol{I}_N),
+         F^e_{[d]}=\boldsymbol{\mu}^e + L^e \boldsymbol{\epsilon},\quad \boldsymbol{\epsilon}\sim\mathcal{N}(0,\boldsymbol{I}_N),
           \\
-         F^r=\boldsymbol{m}^r + L^r \boldsymbol{\epsilon},\quad \boldsymbol{\epsilon}\sim\mathcal{N}(0,\boldsymbol{I}_N),
+         F^r_{[d]}=\boldsymbol{\mu}^r + L^r \boldsymbol{\epsilon},\quad \boldsymbol{\epsilon}\sim\mathcal{N}(0,\boldsymbol{I}_N),
          \end{align*}
          " alt="" border="0"/>
   </center>
@@ -368,14 +364,15 @@
     <img src="http://latex.codecogs.com/svg.latex?
          \begin{align*}
          & \text{Addition:}\quad
-          F^\text{add}:=F^e+F^r \in \mathbb{R}^N,
+          F_{[d]}:=F^e_{[d]}+F^r_{[d]} \in \mathbb{R}^N,
           \\
          & \text{Concatenation:}\quad
-         F^\text{cat}:=[F^e; F^r]\in\mathbb{R}^{2N}.
+         F_{[d]}:=[F^e_{[d]}; F^r_{[d]}]\in\mathbb{R}^{2N},
          \end{align*}
          " alt="" border="0"/>
   </center>
   <p></p>
+  Then we have <img src="http://latex.codecogs.com/svg.latex?F^{\text{add/cat}}:=[F_{[1]},\ldots.F_{[s]}]\in\mathbb{R}^{N\times s}" alt="" border="0"/>.
   The final outputs of the self-attention are
   <p></p>
   <center>
@@ -385,7 +382,7 @@
           O:=F^\text{add} W^\text{add},
           \\
          & \text{Concatenation:}\quad
-         O:= W^\text{cat}_1 F^\text{cat} W^\text{cat}_2.
+         O_{[d]}:= W^\text{cat}_1 F_{[d]}^\text{cat} W^\text{cat}_2.
          \end{align*}
          " alt="" border="0"/>
   </center>
